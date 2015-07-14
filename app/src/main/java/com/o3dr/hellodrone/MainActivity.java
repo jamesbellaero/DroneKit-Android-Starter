@@ -309,8 +309,15 @@ public class MainActivity extends ActionBarActivity implements DroneListener, To
         if (pointA == null || pointB == null) {
             return 0;
         }
-        double dx = pointA.getLatitude() - pointB.getLatitude();
-        double dy  = pointA.getLongitude() - pointB.getLongitude();
+        double lat1 = pointA.getLatitude();
+        double lat2 = pointB.getLatitude();
+        double lon1  = pointA.getLongitude();
+        double lon2 = pointB.getLongitude();
+        double rlat1 = lat1*Math.PI/180;
+        double rlat2 = lat2*Math.PI/180;
+
+        double dx = (111412.84*Math.cos(rlat1)-93.5*Math.cos(3*rlat1))*lon1 - (111412.84*Math.cos(rlat2)-93.5*Math.cos(3*rlat2))*lon2;
+        double dy = (111132.92-559.82*Math.cos(2*rlat1)+1.175*Math.cos(4*rlat1))*lat1 - (111132.92-559.82*Math.cos(2*rlat2)+1.175*Math.cos(4*rlat2))*lat2;
         double dz = pointA.getAltitude() - pointB.getAltitude();
         return Math.sqrt(dx*dx + dy*dy + dz*dz);
     }
